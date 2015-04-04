@@ -1,5 +1,13 @@
-body {
+html, body {
 	font-size: 100%;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+wrapper {
+	min-height: :100%;
+	position: relative;
 }
 
 header, main, footer {
@@ -22,7 +30,7 @@ header {
 	border-style: solid;
 	border-width: 1px;
 	overflow: auto;
-	height: 110px;
+	height: 100px;
 }
 
 header .title {
@@ -51,16 +59,24 @@ header .logon, .logoff {
 	border-width: 1px;
 }
 
+header .logon input[type=text] {
+	width:70%;
+	padding:5px;
+	border:1px solid #ccc;
+	font-family:raleway
+}
+
 /* MAIN */
 main {
 	background: white;
+	overflow: auto;
 }
 
 main h2 {
 	font-size: xx-large;
 }
 
-#popupform, #btnNewPost, .logoff {
+#btnNewPost, .logoff, .addanswer, .showanswer, .hideanswer {
 	display: none;
 }
 
@@ -74,6 +90,48 @@ main h2 {
 	color: blue;
 }
 
-.currentquestions button {
+.rightside button {
 	float: right;
+}
+
+.rightside .expires {
+	float: left;
+}
+
+.availablequestions {
+	display: inline-block;
+	width: 100%;
+	border-bottom: solid;
+}
+
+.leftside {
+	width: 65%;
+	float: left;
+}
+
+.rightside {
+	width: 32%;
+	float: right;
+}
+
+.questionwrapper {
+	display: inline-block;
+	width: 100%;
+}
+
+.answerwrapper {
+	float: right;
+	display: none;
+	width: 80%;
+}
+
+.answerdiv {
+	display: inline-block;
+	width: 100%;
+	padding: 10px 0 10px 0;
+}
+
+/* FOOTER */
+footer {
+
 }
