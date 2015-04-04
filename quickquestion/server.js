@@ -7,12 +7,14 @@ var users = [
 	["test", "test"]
 ];
 
+var questionid = 0;
 var allPosts = [];
 buildTestQuestions();
-
+buildTestAnswers(0);
 
 //new post object constructor
-function newPost(username, title, question, expires) {
+function newPost(username, title, question, expires, questionid) {
+	this.questionid = questionid;
 	this.username = username;
 	this.title = title;
 	this.question = question;
@@ -27,25 +29,33 @@ function newAnswer(username, answer) {
 }
 
 //get timestamp
-function getExpireTime() {
+function getExpireTime(limit) {
 	var expiretime, time;
 
 	time = new Date();
 	time = time.getTime();
 
-	//expires in 24 hours
-	expiretime = time + 86400000;
-	console.log("Added to server: " + time);
+	expiretime = time + parseInt(limit);
+
 	return expiretime;
 }
 
 //add questions to db for testing
 function buildTestQuestions() {
-	var post1 = new newPost("server", "Test Question 1", "Does this fill the array?", getExpireTime());
-	var post2 = new newPost("server", "Test Question 2", "Does this fill the array?", getExpireTime());
+	var post1 = new newPost("server", "Test Question 1", "Does this fill the array?", getExpireTime(86400000), questionid);
+	questionid++;
+	var post2 = new newPost("server", "Test Question 2", "Does this fill the array?", getExpireTime(86400000), questionid);
+	questionid++;
 
 	allPosts.push(post1);
 	allPosts.push(post2);
+}
+
+function buildTestAnswers(questionid) {
+	var answer1 = new newAnswer("other", "Yes it does.");
+	var answer2 = new newAnswer("other", "No it doesn't.");
+	allPosts[questionid].answers.push(answer1);
+	allPosts[questionid].answers.push(answer2);
 }
 
 app = express();
@@ -78,11 +88,18 @@ app.get("/displayQuestions", function (req, res) {
 
 app.post("/newPost", function (req, res) {
 	var post, postinfo;
-
 	postinfo = req.body;
-	post = new newPost(postinfo.username, postinfo.title, postinfo.question, getExpireTime());
+	post = new newPost(postinfo.username, postinfo.title, postinfo.question, getExpireTime(postinfo.expire), questionid);
+	questionid++;
 	allPosts.push(post);
+	res.json({"posted":true});
+});
 
+app.post("/newAnswer", function (req, res) {
+	var answer, postinfo;
+	postinfo = req.body;
+	answer = new newAnswer(postinfo.username, postinfo.answer);
+	allPosts[postinfo.questionid].answers.push(answer);
 	res.json({"posted":true});
 });
 
