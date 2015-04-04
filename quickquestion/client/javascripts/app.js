@@ -173,10 +173,6 @@ function timeLeft(futuretime) {
 	curtime = curtime.getTime();
 	timeleft = futuretime - curtime;
 	
-	if (timeleft < 60) {
-		alert("One minute remaining on a question!");
-	}
-	
 	mydate = new Date(timeleft);
 	humandate = mydate.getUTCHours() + " hours, " + 
 				mydate.getUTCMinutes() + " minutes, " +
